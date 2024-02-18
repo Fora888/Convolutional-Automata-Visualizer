@@ -76,7 +76,7 @@ size = Vector2i(16, 16)
 render_target_clear_mode = 2
 render_target_update_mode = 4
 
-[node name="amogusfaggot" type="TextureRect" parent="FrontBuffer"]
+[node name="TextureRect" type="TextureRect" parent="FrontBuffer"]
 material = ExtResource("2_501vs")
 anchors_preset = 15
 anchor_right = 1.0
@@ -436,21 +436,21 @@ bus = &"New Bus"
 script = ExtResource("6_4mjap")
 convolutionMaterial = ExtResource("2_501vs")
 numberOfKernels = 9
-textureRect = NodePath("../FrontBuffer/amogusfaggot")
+textureRect = NodePath("../FrontBuffer/TextureRect")
 postProcessingMaterial = ExtResource("10_l8jsp")
 
 [node name="3 Channel Convolution Split" type="Node" parent="." node_paths=PackedStringArray("textureRect")]
 script = ExtResource("6_4mjap")
 convolutionMaterial = ExtResource("7_o6kr4")
 numberOfKernels = 3
-textureRect = NodePath("../FrontBuffer/amogusfaggot")
+textureRect = NodePath("../FrontBuffer/TextureRect")
 postProcessingMaterial = ExtResource("10_l8jsp")
 
 [node name="Single Channel Convolution" type="Node" parent="." node_paths=PackedStringArray("textureRect", "uiNode")]
 script = ExtResource("6_4mjap")
 convolutionMaterial = ExtResource("8_7xmuk")
 numberOfKernels = 1
-textureRect = NodePath("../FrontBuffer/amogusfaggot")
+textureRect = NodePath("../FrontBuffer/TextureRect")
 isSplit = true
 postProcessingMaterial = ExtResource("10_l8jsp")
 foregroundColors = [Color(1, 1, 1, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1)]
