@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://05h5ekqgx5r"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_ilutk"]
+[ext_resource type="Shader" path="res://convolution.gdshader" id="1_smfn6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8ynh8"]
+shader = ExtResource("1_smfn6")
+shader_parameter/time = null
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_00ohj"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_ilutk")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+use_hdr_2d = true
+
+[node name="amogusfaggot" type="ColorRect" parent="SubViewport"]
+material = SubResource("ShaderMaterial_8ynh8")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_00ohj")

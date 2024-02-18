@@ -1,0 +1,78 @@
+[gd_scene load_steps=7 format=3 uid="uid://c8xio7yl1bgyy"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_ilutk"]
+[ext_resource type="Material" uid="uid://bsk7pq17efvre" path="res://ConvolutionMaterial.tres" id="2_501vs"]
+[ext_resource type="Material" uid="uid://cbx1wxxdb63rj" path="res://NoiseMaterial.tres" id="2_vi1c6"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_00ohj"]
+viewport_path = NodePath("FrontBuffer")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_2t0rm"]
+viewport_path = NodePath("FrontBuffer")
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_14ira"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_ilutk")
+convolutionMaterial = ExtResource("2_501vs")
+noiseMaterial = ExtResource("2_vi1c6")
+
+[node name="FrontBuffer" type="SubViewport" parent="."]
+disable_3d = true
+use_hdr_2d = true
+render_target_clear_mode = 2
+render_target_update_mode = 4
+
+[node name="amogusfaggot" type="ColorRect" parent="FrontBuffer"]
+material = ExtResource("2_501vs")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+z_index = 1
+offset_right = 146.0
+offset_bottom = 96.0
+text = "Randomize"
+
+[node name="Button2" type="Button" parent="CanvasLayer"]
+z_index = 1
+offset_top = 96.0
+offset_right = 146.0
+offset_bottom = 192.0
+text = "Reset"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("ViewportTexture_00ohj")
+
+[node name="BackBuffer" type="SubViewport" parent="."]
+use_hdr_2d = true
+canvas_item_default_texture_filter = 0
+render_target_update_mode = 4
+
+[node name="TextureRect" type="TextureRect" parent="BackBuffer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_2t0rm")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamMicrophone_14ira")
+autoplay = true
+bus = &"New Bus"
+
+[connection signal="pressed" from="CanvasLayer/Button" to="." method="randomizeAllKernels"]
+[connection signal="pressed" from="CanvasLayer/Button2" to="." method="reset"]

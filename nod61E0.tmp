@@ -1,0 +1,483 @@
+[gd_scene load_steps=27 format=3 uid="uid://c8xio7yl1bgyy"]
+
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_ilutk"]
+[ext_resource type="Material" uid="uid://bsk7pq17efvre" path="res://Materials/ConvolutionMaterial.tres" id="2_501vs"]
+[ext_resource type="Material" uid="uid://cbx1wxxdb63rj" path="res://Materials/NoiseMaterial.tres" id="2_vi1c6"]
+[ext_resource type="Material" uid="uid://cceugqg2sqt8f" path="res://Materials/CopyMaterial.tres" id="5_kvchx"]
+[ext_resource type="Script" path="res://Scripts/kernelGenerator.gd" id="6_4mjap"]
+[ext_resource type="Theme" uid="uid://byoy2xglgvqi1" path="res://Themes/DefaultTheme.tres" id="6_v3w60"]
+[ext_resource type="Script" path="res://Scripts/levelMeter.gd" id="6_w4rcn"]
+[ext_resource type="Script" path="res://Scripts/ColorSettings.gd" id="7_f7io3"]
+[ext_resource type="Script" path="res://Scripts/visibilityToggle.gd" id="7_l0jhc"]
+[ext_resource type="Material" uid="uid://wr7yrlt5637p" path="res://Materials/3ChannelConvolutionSplitMaterial.tres" id="7_o6kr4"]
+[ext_resource type="Script" path="res://Scripts/colorButton.gd" id="7_skja5"]
+[ext_resource type="Script" path="res://Scripts/Record.gd" id="7_txc4c"]
+[ext_resource type="Material" uid="uid://bmx1atbkh87em" path="res://Materials/SingleChannelConvolutionMaterial.tres" id="8_7xmuk"]
+[ext_resource type="Script" path="res://Scripts/GainSlider.gd" id="9_62mah"]
+[ext_resource type="Material" uid="uid://3a3swaqxu57f" path="res://Materials/postProcessingMaterial.tres" id="10_l8jsp"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_8gjcr"]
+viewport_path = NodePath("BackBuffer")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_uinrc"]
+viewport_path = NodePath("FrontBuffer")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8q6np"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sqf4x"]
+bg_color = Color(0.431373, 0.576471, 0.458824, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjr55"]
+bg_color = Color(0.431373, 0.576471, 0.458824, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_63882"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fe4k6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m62q4"]
+bg_color = Color(0.501961, 0.501961, 0.501961, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fe7d0"]
+bg_color = Color(0.768627, 0.768627, 0.768627, 1)
+corner_radius_top_left = 5
+corner_radius_bottom_left = 5
+corner_detail = 3
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_2t0rm"]
+viewport_path = NodePath("FrontBuffer")
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_onup8"]
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("fullKernelGenerator", "splitKernelGenerator", "singleKernelGenerator")]
+script = ExtResource("1_ilutk")
+noiseMaterial = ExtResource("2_vi1c6")
+copyMaterial = ExtResource("5_kvchx")
+randomRange = null
+fullKernelGenerator = NodePath("3 Channel Convolution")
+splitKernelGenerator = NodePath("3 Channel Convolution Split")
+singleKernelGenerator = NodePath("Single Channel Convolution")
+
+[node name="FrontBuffer" type="SubViewport" parent="."]
+disable_3d = true
+canvas_item_default_texture_filter = 0
+size = Vector2i(16, 16)
+render_target_clear_mode = 2
+render_target_update_mode = 4
+
+[node name="amogusfaggot" type="TextureRect" parent="FrontBuffer"]
+material = ExtResource("2_501vs")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_8gjcr")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+texture_filter = 2
+material = ExtResource("10_l8jsp")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_uinrc")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer"]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 242.0
+offset_bottom = 618.0
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2" node_paths=PackedStringArray("uiElement")]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+toggle_mode = true
+button_pressed = true
+text = "Info"
+script = ExtResource("7_l0jhc")
+uiElement = NodePath("../MarginContainer")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+text = "Mouse wheel or +/- to change zoom"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Label3" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+text = "F to toggle Fullscreen"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Label" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+text = " Any other letter 
+to hide UI"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Label4" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = " Audio can be Recorded with Microphone 
+ or Loopbacks like Stereomix or VoiceMeeter "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label5" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = " For best results adjust gain such that the 
+ level is a high as possible without clipping  
+ (Bar turning red)"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/HBoxContainer"]
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_v3w60")
+text = "Randomize"
+icon_alignment = 1
+
+[node name="Button2" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/HBoxContainer"]
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_v3w60")
+action_mode = 0
+text = "Reset"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button4" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_v3w60")
+text = "Toggle Fullscreen"
+
+[node name="Button" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_v3w60")
+text = "3 Channel Full"
+
+[node name="Button2" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+text = "3 Channel Split"
+
+[node name="Button3" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+text = "Single Channel"
+
+[node name="Label2" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+z_index = 1
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+text = "Color"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Saturate" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+toggle_mode = true
+text = "Saturate"
+
+[node name="ColorSettings" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SingleChannel" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings"]
+visible = false
+layout_mode = 2
+script = ExtResource("7_f7io3")
+
+[node name="Channel1Color" type="PanelContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="ColorContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/MarginContainer/HBoxContainer"]
+z_index = 1
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_8q6np")
+text = "Foreground"
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_sqf4x")
+script = ExtResource("7_skja5")
+
+[node name="ColorPicker" type="ColorPicker" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer"]
+layout_mode = 2
+theme_override_constants/sv_width = 0
+theme_override_constants/sv_height = 160
+theme_override_constants/h_width = 25
+edit_alpha = false
+can_add_swatches = false
+sampler_visible = false
+color_modes_visible = false
+sliders_visible = false
+hex_visible = false
+presets_visible = false
+
+[node name="Background1Color" type="PanelContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="ColorContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/MarginContainer/HBoxContainer"]
+z_index = 1
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_8q6np")
+text = "Background"
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_sjr55")
+script = ExtResource("7_skja5")
+
+[node name="ColorPicker" type="ColorPicker" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer"]
+layout_mode = 2
+theme_override_constants/sv_width = 0
+theme_override_constants/sv_height = 160
+theme_override_constants/h_width = 25
+color = Color(0, 0, 0, 1)
+edit_alpha = false
+can_add_swatches = false
+sampler_visible = false
+color_modes_visible = false
+sliders_visible = false
+hex_visible = false
+presets_visible = false
+
+[node name="Debug" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug"]
+z_index = 1
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+text = "Audio"
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_63882")
+text = "Gain  "
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = ExtResource("6_v3w60")
+max_value = 48.0
+script = ExtResource("9_62mah")
+
+[node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer2"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_fe4k6")
+text = "Level "
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer2/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_m62q4")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fe7d0")
+max_value = 1.0
+value = 0.09
+show_percentage = false
+script = ExtResource("6_w4rcn")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug"]
+layout_mode = 2
+script = ExtResource("7_txc4c")
+
+[node name="Record" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_v3w60")
+text = "Record"
+
+[node name="Playback" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_v3w60")
+text = "Playback"
+
+[node name="BackBuffer" type="SubViewport" parent="."]
+canvas_item_default_texture_filter = 0
+size = Vector2i(16, 16)
+render_target_clear_mode = 2
+render_target_update_mode = 4
+
+[node name="TextureRect" type="TextureRect" parent="BackBuffer"]
+material = ExtResource("5_kvchx")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_2t0rm")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamMicrophone_onup8")
+autoplay = true
+bus = &"New Bus"
+
+[node name="3 Channel Convolution" type="Node" parent="." node_paths=PackedStringArray("textureRect")]
+script = ExtResource("6_4mjap")
+convolutionMaterial = ExtResource("2_501vs")
+numberOfKernels = 9
+textureRect = NodePath("../FrontBuffer/amogusfaggot")
+postProcessingMaterial = ExtResource("10_l8jsp")
+
+[node name="3 Channel Convolution Split" type="Node" parent="." node_paths=PackedStringArray("textureRect")]
+script = ExtResource("6_4mjap")
+convolutionMaterial = ExtResource("7_o6kr4")
+numberOfKernels = 3
+textureRect = NodePath("../FrontBuffer/amogusfaggot")
+postProcessingMaterial = ExtResource("10_l8jsp")
+
+[node name="Single Channel Convolution" type="Node" parent="." node_paths=PackedStringArray("textureRect", "uiNode")]
+script = ExtResource("6_4mjap")
+convolutionMaterial = ExtResource("8_7xmuk")
+numberOfKernels = 1
+textureRect = NodePath("../FrontBuffer/amogusfaggot")
+isSplit = true
+postProcessingMaterial = ExtResource("10_l8jsp")
+foregroundColors = [Color(1, 1, 1, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1)]
+uiNode = NodePath("../CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel")
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+
+[node name="RecordingTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="toggled" from="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/Button" to="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/Button" method="_on_toggled"]
+[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/HBoxContainer/Button" to="." method="randomizeKernel"]
+[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/HBoxContainer/Button2" to="." method="reset"]
+[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer/Button4" to="." method="toggleFullscreen"]
+[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer/Button" to="." method="setFullKernelGenerator"]
+[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer/Button2" to="." method="setSplitKernelGenerator"]
+[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer/Button3" to="." method="setSingleKernelGenerator"]
+[connection signal="toggled" from="CanvasLayer/ScrollContainer/VBoxContainer/Saturate" to="." method="setSaturation"]
+[connection signal="visibility_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel" to="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel" method="visibility_changed"]
+[connection signal="color_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/ColorPicker" to="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/MarginContainer/HBoxContainer/Button" method="setColor"]
+[connection signal="color_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/ColorPicker" to="Single Channel Convolution" method="setColor" binds= [1]]
+[connection signal="visibility_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/ColorPicker" to="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/ColorPicker" method="_on_visibility_changed"]
+[connection signal="color_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" to="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/MarginContainer/HBoxContainer/Button" method="setColor"]
+[connection signal="color_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" to="Single Channel Convolution" method="setColor" binds= [-1]]
+[connection signal="visibility_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" to="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" method="_on_visibility_changed"]
+[connection signal="value_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer/HSlider" to="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer/HSlider" method="_on_value_changed"]
+[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2/Record" to="CanvasLayer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2" method="_on_record_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2/Playback" to="CanvasLayer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2" method="_on_play_button_pressed"]

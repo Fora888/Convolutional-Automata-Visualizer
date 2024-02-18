@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bsk7pq17efvre"]
+
+[ext_resource type="Shader" path="res://Shaders/3ChannelConvolutionFull.gdshader" id="1_ga1m5"]
+
+[resource]
+shader = ExtResource("1_ga1m5")
+shader_parameter/kernels = PackedFloat32Array()
+shader_parameter/time = null

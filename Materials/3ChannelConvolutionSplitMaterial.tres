@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://wr7yrlt5637p"]
+
+[ext_resource type="Shader" path="res://Shaders/3ChannelConvolutionSplit.gdshader" id="1_1rgc8"]
+
+[resource]
+shader = ExtResource("1_1rgc8")
+shader_parameter/kernels = null
+shader_parameter/time = null

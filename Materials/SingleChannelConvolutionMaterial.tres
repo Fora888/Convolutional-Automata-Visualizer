@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bmx1atbkh87em"]
+
+[ext_resource type="Shader" path="res://Shaders/singleChannelConvolution.gdshader" id="1_oiu1o"]
+
+[resource]
+shader = ExtResource("1_oiu1o")
+shader_parameter/kernel = null

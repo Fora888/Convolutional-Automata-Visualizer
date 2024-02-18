@@ -1,0 +1,209 @@
+[gd_scene load_steps=14 format=3 uid="uid://c8xio7yl1bgyy"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_ilutk"]
+[ext_resource type="Material" uid="uid://bsk7pq17efvre" path="res://Materials/ConvolutionMaterial.tres" id="2_501vs"]
+[ext_resource type="Material" uid="uid://cbx1wxxdb63rj" path="res://Materials/NoiseMaterial.tres" id="2_vi1c6"]
+[ext_resource type="Shader" path="res://Shaders/postProcessing.gdshader" id="4_a4tcs"]
+[ext_resource type="Material" uid="uid://cceugqg2sqt8f" path="res://Materials/CopyMaterial.tres" id="5_kvchx"]
+[ext_resource type="Script" path="res://kernelGenerator.gd" id="6_4mjap"]
+[ext_resource type="Material" uid="uid://wr7yrlt5637p" path="res://Materials/3ChannelConvolutionSplitMaterial.tres" id="7_o6kr4"]
+[ext_resource type="Material" uid="uid://bmx1atbkh87em" path="res://Materials/SingleChannelConvolutionMaterial.tres" id="8_7xmuk"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_8gjcr"]
+viewport_path = NodePath("BackBuffer")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dq67b"]
+shader = ExtResource("4_a4tcs")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_uinrc"]
+viewport_path = NodePath("FrontBuffer")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_2t0rm"]
+viewport_path = NodePath("FrontBuffer")
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_onup8"]
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("fullKernelGenerator", "splitKernelGenerator", "singleKernelGenerator")]
+script = ExtResource("1_ilutk")
+noiseMaterial = ExtResource("2_vi1c6")
+copyMaterial = ExtResource("5_kvchx")
+fullKernelGenerator = NodePath("3 Channel Convolution")
+splitKernelGenerator = NodePath("3 Channel Convolution Split")
+singleKernelGenerator = NodePath("Single Channel Convolution")
+
+[node name="FrontBuffer" type="SubViewport" parent="."]
+disable_3d = true
+canvas_item_default_texture_filter = 0
+size = Vector2i(16, 16)
+render_target_clear_mode = 2
+render_target_update_mode = 4
+
+[node name="amogusfaggot" type="TextureRect" parent="FrontBuffer"]
+material = ExtResource("2_501vs")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_8gjcr")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+texture_filter = 2
+material = SubResource("ShaderMaterial_dq67b")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_uinrc")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer"]
+clip_contents = false
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 242.0
+offset_bottom = 248.0
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/HBoxContainer"]
+z_index = 1
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Randomize"
+icon_alignment = 1
+
+[node name="Button2" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/HBoxContainer"]
+z_index = 1
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+action_mode = 0
+text = "Reset"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button4" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Toggle Fullscreen"
+
+[node name="Button" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "3 Channel Full"
+
+[node name="Button2" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "3 Channel Split"
+
+[node name="Button3" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Single Channel"
+
+[node name="Label2" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+z_index = 1
+layout_mode = 2
+text = "Color"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/ScrollContainer/VBoxContainer/Label2"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Button" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+text = "Saturate"
+
+[node name="Label" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+visible = false
+z_index = 1
+layout_mode = 2
+text = "amogus
+"
+horizontal_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/ScrollContainer/VBoxContainer/Label"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BackBuffer" type="SubViewport" parent="."]
+canvas_item_default_texture_filter = 0
+size = Vector2i(16, 16)
+render_target_clear_mode = 2
+render_target_update_mode = 4
+
+[node name="TextureRect" type="TextureRect" parent="BackBuffer"]
+material = ExtResource("5_kvchx")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_2t0rm")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamMicrophone_onup8")
+autoplay = true
+bus = &"New Bus"
+
+[node name="3 Channel Convolution" type="Node" parent="." node_paths=PackedStringArray("textureRect")]
+script = ExtResource("6_4mjap")
+convolutionMaterial = ExtResource("2_501vs")
+numberOfKernels = 9
+textureRect = NodePath("../FrontBuffer/amogusfaggot")
+
+[node name="3 Channel Convolution Split" type="Node" parent="." node_paths=PackedStringArray("textureRect")]
+script = ExtResource("6_4mjap")
+convolutionMaterial = ExtResource("7_o6kr4")
+numberOfKernels = 3
+textureRect = NodePath("../FrontBuffer/amogusfaggot")
+
+[node name="Single Channel Convolution" type="Node" parent="." node_paths=PackedStringArray("textureRect")]
+script = ExtResource("6_4mjap")
+convolutionMaterial = ExtResource("8_7xmuk")
+numberOfKernels = 1
+textureRect = NodePath("../FrontBuffer/amogusfaggot")
+isSplit = true
+
+[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/HBoxContainer/Button" to="." method="randomizeKernel"]
+[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/HBoxContainer/Button2" to="." method="reset"]
+[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer/Button4" to="." method="toggleFullscreen"]
+[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer/Button" to="." method="setFullKernelGenerator"]
+[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer/Button2" to="." method="setSplitKernelGenerator"]
+[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer/Button3" to="." method="setSingleKernelGenerator"]
+[connection signal="button_down" from="CanvasLayer/ScrollContainer/VBoxContainer/Button" to="." method="_on_record_button_pressed"]
+[connection signal="button_up" from="CanvasLayer/ScrollContainer/VBoxContainer/Button" to="." method="_on_play_button_pressed"]
