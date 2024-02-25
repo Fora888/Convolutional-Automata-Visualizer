@@ -14,7 +14,6 @@ var saturate = false
 var zoom = true
 
 func toggleZoom(on : bool):
-	print(on)
 	zoom = on
 	pass
 	
@@ -93,16 +92,14 @@ func _input(event):
 			bufferWindowRatio = clampf(bufferWindowRatio + 0.1, 0.2, 2)
 			resizeBuffers()
 		
-	elif event.is_action_pressed("Toggle Debug"):
-		$CanvasLayer/ScrollContainer/VBoxContainer/Debug.visible = !$CanvasLayer/ScrollContainer/VBoxContainer/Debug.visible
 	
-	elif event.is_action_pressed("Toggle Fullscreen"):
+	if event.is_action_pressed("Toggle Fullscreen"):
 		toggleFullscreen()
 		
 	elif event is InputEventKey:
 		if event.pressed:
 			if (event.keycode >= 65 && event.keycode < 91):
-				$CanvasLayer/ScrollContainer.visible = !$CanvasLayer/ScrollContainer.visible
+				$CanvasLayer/MarginContainer.visible = !$CanvasLayer/MarginContainer.visible
 	
 		
 	pass

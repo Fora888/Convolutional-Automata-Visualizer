@@ -105,32 +105,39 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("ViewportTexture_uinrc")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 9
+anchor_bottom = 1.0
 offset_left = 30.0
-offset_top = 30.0
-offset_right = 242.0
-offset_bottom = 618.0
+offset_right = 394.0
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
 horizontal_scroll_mode = 0
 
-[node name="Container" type="Container" parent="CanvasLayer/ScrollContainer"]
+[node name="Container" type="Container" parent="CanvasLayer/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 1
 theme = ExtResource("6_v3w60")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2" node_paths=PackedStringArray("uiElement")]
+[node name="Button" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2" node_paths=PackedStringArray("uiElement")]
 layout_mode = 2
 mouse_filter = 1
 theme = ExtResource("6_v3w60")
@@ -141,28 +148,28 @@ text = "Info
 script = ExtResource("7_l0jhc")
 uiElement = NodePath("../MarginContainer")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2"]
 layout_mode = 2
 theme = ExtResource("6_v3w60")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("6_v3w60")
 text = "Mouse wheel or +/- to change zoom"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Label3" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+[node name="Label3" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("6_v3w60")
 text = "F to toggle Fullscreen"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Label" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("6_v3w60")
 text = " Any other letter 
@@ -170,14 +177,14 @@ to hide UI"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Label4" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+[node name="Label4" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = " Audio can be Recorded with Microphone 
  or Loopbacks like Stereomix or VoiceMeeter "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label5" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
+[node name="Label5" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = " For best results adjust gain such that the 
  level is a high as possible without clipping  
@@ -185,10 +192,10 @@ text = " For best results adjust gain such that the
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="Button" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
 z_index = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -197,7 +204,7 @@ theme = ExtResource("6_v3w60")
 text = "Randomize"
 icon_alignment = 1
 
-[node name="Button2" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="Button2" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
 z_index = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -206,36 +213,36 @@ theme = ExtResource("6_v3w60")
 action_mode = 0
 text = "Reset"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Button4" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer"]
+[node name="Button4" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 theme = ExtResource("6_v3w60")
 text = "Toggle Fullscreen"
 
-[node name="Button" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 theme = ExtResource("6_v3w60")
 text = "3 Channel Full"
 
-[node name="Button2" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer"]
+[node name="Button2" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 1
 theme = ExtResource("6_v3w60")
 text = "3 Channel Split"
 
-[node name="Button3" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer"]
+[node name="Button3" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 1
 theme = ExtResource("6_v3w60")
 text = "Single Channel"
 
-[node name="Label2" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer"]
 z_index = 1
 layout_mode = 2
 theme = ExtResource("6_v3w60")
@@ -243,38 +250,38 @@ text = "Color"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Saturate" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+[node name="Saturate" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 1
 theme = ExtResource("6_v3w60")
 toggle_mode = true
 text = "Saturate"
 
-[node name="ColorSettings" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+[node name="ColorSettings" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="SingleChannel" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings"]
+[node name="SingleChannel" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings"]
 visible = false
 layout_mode = 2
 script = ExtResource("7_f7io3")
 
-[node name="Channel1Color" type="PanelContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel"]
+[node name="Channel1Color" type="PanelContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel"]
 layout_mode = 2
 mouse_filter = 1
 theme = ExtResource("6_v3w60")
 
-[node name="ColorContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color"]
+[node name="ColorContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer"]
 layout_mode = 2
 theme = ExtResource("6_v3w60")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/MarginContainer/HBoxContainer"]
 z_index = 1
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -283,14 +290,14 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_8q6np")
 text = "Foreground"
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/MarginContainer/HBoxContainer"]
+[node name="Button" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 theme_override_styles/normal = SubResource("StyleBoxFlat_sqf4x")
 script = ExtResource("7_skja5")
 
-[node name="ColorPicker" type="ColorPicker" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer"]
+[node name="ColorPicker" type="ColorPicker" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer"]
 layout_mode = 2
 theme_override_constants/sv_width = 0
 theme_override_constants/sv_height = 160
@@ -303,26 +310,26 @@ sliders_visible = false
 hex_visible = false
 presets_visible = false
 
-[node name="Background1Color" type="PanelContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel"]
+[node name="Background1Color" type="PanelContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel"]
 layout_mode = 2
 mouse_filter = 1
 theme = ExtResource("6_v3w60")
 
-[node name="ColorContainer" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color"]
+[node name="ColorContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/MarginContainer/HBoxContainer"]
 z_index = 1
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -331,14 +338,14 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_8q6np")
 text = "Background"
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/MarginContainer/HBoxContainer"]
+[node name="Button" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 theme_override_styles/normal = SubResource("StyleBoxFlat_sjr55")
 script = ExtResource("7_skja5")
 
-[node name="ColorPicker" type="ColorPicker" parent="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer"]
+[node name="ColorPicker" type="ColorPicker" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer"]
 layout_mode = 2
 theme_override_constants/sv_width = 0
 theme_override_constants/sv_height = 160
@@ -352,35 +359,35 @@ sliders_visible = false
 hex_visible = false
 presets_visible = false
 
-[node name="Debug" type="VBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer"]
+[node name="Debug" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug"]
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug"]
 z_index = 1
 layout_mode = 2
 theme = ExtResource("6_v3w60")
 text = "Audio"
 horizontal_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug"]
 layout_mode = 2
 mouse_filter = 1
 theme = ExtResource("6_v3w60")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer"]
 layout_mode = 2
 theme = ExtResource("6_v3w60")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("6_v3w60")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_63882")
 text = "Input Gain  "
 
-[node name="HSlider" type="HSlider" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="HSlider" type="HSlider" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -389,24 +396,24 @@ theme = ExtResource("6_v3w60")
 max_value = 48.0
 script = ExtResource("9_62mah")
 
-[node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug"]
+[node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug"]
 layout_mode = 2
 mouse_filter = 1
 theme = ExtResource("6_v3w60")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer2"]
 layout_mode = 2
 theme = ExtResource("6_v3w60")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer2/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer2/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer2/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer2/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_fe4k6")
 text = "Input Level "
 
-[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer2/MarginContainer/HBoxContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer2/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -419,18 +426,18 @@ value = 0.09
 show_percentage = false
 script = ExtResource("6_w4rcn")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug"]
 layout_mode = 2
 script = ExtResource("7_txc4c")
 
-[node name="Record" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2"]
+[node name="Record" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 theme = ExtResource("6_v3w60")
 text = "Record"
 
-[node name="Playback" type="Button" parent="CanvasLayer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2"]
+[node name="Playback" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
@@ -527,7 +534,7 @@ textureRect = NodePath("../FrontBuffer/TextureRect")
 isSplit = true
 postProcessingMaterial = ExtResource("10_l8jsp")
 foregroundColors = [Color(1, 1, 1, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1)]
-uiNode = NodePath("../CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel")
+uiNode = NodePath("../CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel")
 
 [node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
 
@@ -535,24 +542,24 @@ uiNode = NodePath("../CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/Si
 wait_time = 5.0
 one_shot = true
 
-[connection signal="mouse_entered" from="CanvasLayer/ScrollContainer" to="." method="toggleZoom" binds= [false]]
-[connection signal="mouse_exited" from="CanvasLayer/ScrollContainer" to="." method="toggleZoom" binds= [true]]
-[connection signal="toggled" from="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/Button" to="CanvasLayer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/Button" method="_on_toggled"]
-[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/HBoxContainer/Button" to="." method="randomizeKernel"]
-[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/HBoxContainer/Button2" to="." method="reset"]
-[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer/Button4" to="." method="toggleFullscreen"]
-[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer/Button" to="." method="setFullKernelGenerator"]
-[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer/Button2" to="." method="setSplitKernelGenerator"]
-[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/VBoxContainer/Button3" to="." method="setSingleKernelGenerator"]
-[connection signal="toggled" from="CanvasLayer/ScrollContainer/VBoxContainer/Saturate" to="." method="setSaturation"]
-[connection signal="visibility_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel" to="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel" method="visibility_changed"]
-[connection signal="color_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/ColorPicker" to="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/MarginContainer/HBoxContainer/Button" method="setColor"]
-[connection signal="color_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/ColorPicker" to="Single Channel Convolution" method="setColor" binds= [1]]
-[connection signal="visibility_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/ColorPicker" to="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/ColorPicker" method="_on_visibility_changed"]
-[connection signal="color_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" to="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/MarginContainer/HBoxContainer/Button" method="setColor"]
-[connection signal="color_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" to="Single Channel Convolution" method="setColor" binds= [-1]]
-[connection signal="visibility_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" to="CanvasLayer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" method="_on_visibility_changed"]
-[connection signal="value_changed" from="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer/HSlider" to="CanvasLayer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer/HSlider" method="_on_value_changed"]
-[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2/Record" to="CanvasLayer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2" method="_on_record_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2/Playback" to="CanvasLayer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2" method="_on_play_button_pressed"]
+[connection signal="mouse_entered" from="CanvasLayer/MarginContainer/ScrollContainer" to="." method="toggleZoom" binds= [false]]
+[connection signal="mouse_exited" from="CanvasLayer/MarginContainer/ScrollContainer" to="." method="toggleZoom" binds= [true]]
+[connection signal="toggled" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/Button" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/PanelContainer/VBoxContainer2/Button" method="_on_toggled"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/Button" to="." method="randomizeKernel"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/Button2" to="." method="reset"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/Button4" to="." method="toggleFullscreen"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/Button" to="." method="setFullKernelGenerator"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/Button2" to="." method="setSplitKernelGenerator"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/Button3" to="." method="setSingleKernelGenerator"]
+[connection signal="toggled" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Saturate" to="." method="setSaturation"]
+[connection signal="visibility_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel" method="visibility_changed"]
+[connection signal="color_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/ColorPicker" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/MarginContainer/HBoxContainer/Button" method="setColor"]
+[connection signal="color_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/ColorPicker" to="Single Channel Convolution" method="setColor" binds= [1]]
+[connection signal="visibility_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/ColorPicker" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Channel1Color/ColorContainer/ColorPicker" method="_on_visibility_changed"]
+[connection signal="color_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/MarginContainer/HBoxContainer/Button" method="setColor"]
+[connection signal="color_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" to="Single Channel Convolution" method="setColor" binds= [-1]]
+[connection signal="visibility_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" method="_on_visibility_changed"]
+[connection signal="value_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer/HSlider" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer/HSlider" method="_on_value_changed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2/Record" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2" method="_on_record_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2/Playback" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2" method="_on_play_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Button" to="CanvasLayer/Button" method="_on_pressed"]
