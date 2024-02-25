@@ -76,7 +76,7 @@ func updateKernelsFromSpectogram():
 	
 
 	for i in 512:
-		samples.append(linear_to_db(spectrum.get_magnitude_for_frequency_range((i / 512.0) * 20000.0,((i + 1) / 512.0) * 20000.0).length())/ 60.0 + 1.0)
+		samples.append(linear_to_db(spectrum.get_magnitude_for_frequency_range((i / 512.0) * 20000.0,((i + 1) / 512.0) * 20000.0).length())/ 96.0 + 1.0)
 		if samples[i] == -INF:
 			samples[i] = 0.0
 	

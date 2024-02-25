@@ -11,6 +11,12 @@ var currentKernelGenerator
 var bufferWindowRatio = 0.4
 var rng = RandomNumberGenerator.new()
 var saturate = false
+var zoom = true
+
+func toggleZoom(on : bool):
+	print(on)
+	zoom = on
+	pass
 	
 
 func toggleFullscreen():
@@ -78,13 +84,14 @@ func _process(delta):
 	pass
 
 func _input(event):
-
-	if event.is_action_pressed("Zoom in"):
-		bufferWindowRatio = clampf(bufferWindowRatio - 0.1, 0.2, 2)
-		resizeBuffers()
-	elif event.is_action_pressed("Zoom out"):
-		bufferWindowRatio = clampf(bufferWindowRatio + 0.1, 0.2, 2)
-		resizeBuffers()
+	
+	if zoom:
+		if event.is_action_pressed("Zoom in"):
+			bufferWindowRatio = clampf(bufferWindowRatio - 0.1, 0.2, 2)
+			resizeBuffers()
+		elif event.is_action_pressed("Zoom out"):
+			bufferWindowRatio = clampf(bufferWindowRatio + 0.1, 0.2, 2)
+			resizeBuffers()
 		
 	elif event.is_action_pressed("Toggle Debug"):
 		$CanvasLayer/ScrollContainer/VBoxContainer/Debug.visible = !$CanvasLayer/ScrollContainer/VBoxContainer/Debug.visible
@@ -99,4 +106,3 @@ func _input(event):
 	
 		
 	pass
-	
