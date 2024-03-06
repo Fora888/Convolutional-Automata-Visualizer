@@ -3,7 +3,7 @@ extends Node
 @export var convolutionMaterial : ShaderMaterial
 @export var numberOfKernels : int
 @export var textureRect : TextureRect
-@export var isSplit : bool
+@export var is3D : bool
 @export var backgroundColor : bool
 
 @export var postProcessingMaterial : ShaderMaterial
@@ -52,7 +52,8 @@ func randomizeWeights():
 	for i in numberOfKernelWeights:
 		var row : PackedFloat32Array
 		for j in 512:
-			row.append(rng.randf())
+			#row.append(rng.randf_range(-1.0, 1.0) * (1.0 / j if j != 0 else 1))
+			row.append(rng.randf_range(-1.0, 1.0))
 		weights.append(row)
 	pass	
 
@@ -76,8 +77,8 @@ func updateKernelsFromSpectogram():
 	
 
 	for i in 512:
-		samples.append(linear_to_db(spectrum.get_magnitude_for_frequency_range((i / 512.0) * 20000.0,((i + 1) / 512.0) * 20000.0).length())/ 96.0 + 1.0)
-		if samples[i] == -INF:
+		samples.append(linear_to_db(spectrum.get_magnitude_for_frequency_range((i / 512.0) * 20000.0,((i + 1) / 512.0) * 20000.0).length())/ 72.0 + 1.0)
+		if samples[i] == -INF or samples[i] < 0.0:
 			samples[i] = 0.0
 	
 	for i in (numberOfThreads - 1):
@@ -89,32 +90,52 @@ func updateKernelsFromSpectogram():
 	for i in (numberOfThreads - 1):
 		convolutionWeights.append_array(threads[i].wait_to_finish())
 	
+	#basicly needs a complete rewrite. 
 	
 	var index = 0
-	var mean = 0.0
+	var mean = []
+	mean.resize(numberOfKernels)
+	mean.fill(0.0)
 	for i in numberOfKernels:
-		var kernel = Basis()
-		for x in 3:
-			for y in 3:
-				kernel[x][y] = convolutionWeights[index]
-				mean = mean + kernel[x][y]
-				index = index + 1
-		kernels.append(kernel)
-
-	mean = mean / numberOfKernelWeights
+		for j in (3 if is3D else 1):
+			var kernel = Basis()
+			for x in 3:
+				for y in 3:
+					kernel[x][y] = convolutionWeights[index]
+					mean[i] = mean[i] + kernel[x][y]
+					index = index + 1
+			kernels.append(kernel)
 	
-	var variance = 0.0
 	for i in numberOfKernels:
-		for x in 3:
-			for y in 3:
-				variance = variance + pow(kernels[i][x][y] - mean, 2)
+		if(is3D):
+			mean[i] = mean[i] / 27.0
+		else:
+			mean[i] = mean[i] / 9.0
 	
-	variance = variance / numberOfKernelWeights			
+	var variance = []
+	variance.resize(numberOfKernels)
+	variance.fill(0.0)
+	for i in numberOfKernels:
+		for j in (3 if is3D else 1):
+			for x in 3:
+				for y in 3:
+					var kernelIndex = (i * 3 + j) if is3D else i
+					variance[i] = variance[i] + pow(kernels[kernelIndex][x][y] - mean[i], 2)
+					#variance = max(variance, abs(kernels[i][x][y] - mean))
+	
+	for i in numberOfKernels:
+		if(is3D):
+			variance[i] = variance[i] / 27.0		
+		else:
+			variance[i] = variance[i] / 9.0			
 				
 	for i in numberOfKernels:
-		for x in 3:
-			for y in 3:
-				kernels[i][x][y] = (kernels[i][x][y] - mean + averageKernelValue) / (sqrt(variance + 0.0001) * 2)
+		for j in (3 if is3D else 1):
+			for x in 3:
+				for y in 3:
+					var kernelIndex = (i * 3 + j) if is3D else i
+					kernels[kernelIndex][x][y] = (kernels[kernelIndex][x][y] - mean[i] ) / sqrt(variance[i] + 0.0001) / 1 + averageKernelValue
+					#kernels[i][x][y] = (kernels[i][x][y] - mean + averageKernelValue) / variance
 
 	textureRect.material = convolutionMaterial
 	convolutionMaterial.set_shader_parameter("kernels", kernels)
@@ -122,11 +143,13 @@ func updateKernelsFromSpectogram():
 	pass
 
 func _ready():
-	if(isSplit):
-		averageKernelValue = 1.0 / 9.0
+	if(is3D):
+		averageKernelValue = 1.0 / 27.0
+		numberOfKernelWeights = numberOfKernels * 3 * 3 * 3
 	else:
-		averageKernelValue = 1.0 / 81.0
-	numberOfKernelWeights = numberOfKernels * 3 * 3
+		averageKernelValue = 1.0 / 9.0
+		numberOfKernelWeights = numberOfKernels * 3 * 3
+	
 	numberOfThreads = ceil(numberOfKernelWeights / 20.0)
 	matricesPerThread = int(numberOfKernelWeights / numberOfThreads)
 	additionalMatrices = (numberOfKernelWeights % matricesPerThread)

@@ -322,7 +322,7 @@ var INITIAL_MEMORY = Module["INITIAL_MEMORY"] || 33554432;
 
 legacyModuleProp("INITIAL_MEMORY", "INITIAL_MEMORY");
 
-assert(INITIAL_MEMORY >= 65536, "INITIAL_MEMORY should be larger than STACK_SIZE, was " + INITIAL_MEMORY + "! (STACK_SIZE=" + 65536 + ")");
+assert(INITIAL_MEMORY >= 5242880, "INITIAL_MEMORY should be larger than STACK_SIZE, was " + INITIAL_MEMORY + "! (STACK_SIZE=" + 5242880 + ")");
 
 if (ENVIRONMENT_IS_PTHREAD) {
  wasmMemory = Module["wasmMemory"];
@@ -585,7 +585,7 @@ function createExportWrapper(name) {
 
 var wasmBinaryFile;
 
-wasmBinaryFile = "godot.web.template_release.wasm32.wasm";
+wasmBinaryFile = "godot.web.template_debug.wasm32.wasm";
 
 if (!isDataURI(wasmBinaryFile)) {
  wasmBinaryFile = locateFile(wasmBinaryFile);
@@ -3791,7 +3791,7 @@ var handleException = e => {
  checkStackCookie();
  if (e instanceof WebAssembly.RuntimeError) {
   if (_emscripten_stack_get_current() <= 0) {
-   err("Stack overflow detected.  You can try increasing -sSTACK_SIZE (currently set to 65536)");
+   err("Stack overflow detected.  You can try increasing -sSTACK_SIZE (currently set to 5242880)");
   }
  }
  quit_(1, e);
@@ -3936,7 +3936,7 @@ var PThread = {
  },
  allocateUnusedWorker() {
   var worker;
-  var pthreadMainJs = locateFile("godot.web.template_release.wasm32.worker.js");
+  var pthreadMainJs = locateFile("godot.web.template_debug.wasm32.worker.js");
   worker = new Worker(pthreadMainJs);
   PThread.unusedWorkers.push(worker);
  },
@@ -4105,7 +4105,7 @@ var ___assert_fail = (condition, filename, line, func) => {
 var ___call_sighandler = (fp, sig) => getWasmTableEntry(fp)(sig);
 
 var ___emscripten_init_main_thread_js = tb => {
- __emscripten_thread_init(tb, /*is_main=*/ !ENVIRONMENT_IS_WORKER, /*is_runtime=*/ 1, /*can_block=*/ !ENVIRONMENT_IS_WEB, /*default_stacksize=*/ 65536, /*start_profiling=*/ false);
+ __emscripten_thread_init(tb, /*is_main=*/ !ENVIRONMENT_IS_WORKER, /*is_runtime=*/ 1, /*can_block=*/ !ENVIRONMENT_IS_WEB, /*default_stacksize=*/ 2097152, /*start_profiling=*/ false);
  PThread.threadInitTLS();
 };
 

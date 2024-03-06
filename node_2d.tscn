@@ -515,8 +515,9 @@ bus = &"New Bus"
 [node name="3 Channel Convolution" type="Node" parent="." node_paths=PackedStringArray("textureRect")]
 script = ExtResource("6_4mjap")
 convolutionMaterial = ExtResource("2_501vs")
-numberOfKernels = 9
+numberOfKernels = 3
 textureRect = NodePath("../FrontBuffer/TextureRect")
+is3D = true
 postProcessingMaterial = ExtResource("10_l8jsp")
 
 [node name="3 Channel Convolution Split" type="Node" parent="." node_paths=PackedStringArray("textureRect")]
@@ -531,7 +532,6 @@ script = ExtResource("6_4mjap")
 convolutionMaterial = ExtResource("8_7xmuk")
 numberOfKernels = 1
 textureRect = NodePath("../FrontBuffer/TextureRect")
-isSplit = true
 postProcessingMaterial = ExtResource("10_l8jsp")
 foregroundColors = [Color(1, 1, 1, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1)]
 uiNode = NodePath("../CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel")

@@ -5,3 +5,5 @@
 [resource]
 shader = ExtResource("1_qp54r")
 shader_parameter/saturate = null
+shader_parameter/foregroundColors = null
+shader_parameter/backgroundColors = null
