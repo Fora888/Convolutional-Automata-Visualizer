@@ -2,9 +2,9 @@
 
 [sub_resource type="AudioEffectSpectrumAnalyzer" id="AudioEffectSpectrumAnalyzer_gkawm"]
 resource_name = "SpectrumAnalyzer"
-buffer_length = 1.0
+buffer_length = 0.1
 tap_back_pos = 0.1
-fft_size = 1
+fft_size = 4
 
 [sub_resource type="AudioEffectRecord" id="AudioEffectRecord_s5nn3"]
 resource_name = "Record"

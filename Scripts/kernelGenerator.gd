@@ -12,7 +12,9 @@ extends Node
 @export var backgroundColors = [Color(0,0,0), Color(0,0,0), Color(0,0,0)]
 
 @export var uiNode : Node
-
+@export var spectogramBar : PackedScene
+@export var spectogramContainer : HBoxContainer
+var spectogramBars = []
 
 var spectrum
 var weights = []
@@ -21,6 +23,7 @@ var numberOfKernelWeights : int
 var averageKernelValue : float
 var rng = RandomNumberGenerator.new()
 var outputTexture
+var noise = FastNoiseLite.new()
 
 
 func setColor(color : Color, id : int):
@@ -51,9 +54,15 @@ func randomizeWeights():
 	weights = []
 	for i in numberOfKernelWeights:
 		var row : PackedFloat32Array
+		var sum = 0
+		var randomRow = rng.randf_range(-1.0, 1.0) * 500
 		for j in 512:
-			#row.append(rng.randf_range(-1.0, 1.0) * (1.0 / j if j != 0 else 1))
-			row.append(rng.randf_range(-1.0, 1.0))
+			row.append(noise.get_noise_2d(j, randomRow))
+			#row.append(randf())
+			sum = sum + (row[-1] ** 2)
+		sum = sqrt(sum)
+		for j in 512:
+			row[j] = row[j] / sum
 		weights.append(row)
 	pass	
 
@@ -77,9 +86,12 @@ func updateKernelsFromSpectogram():
 	
 
 	for i in 512:
-		samples.append(linear_to_db(spectrum.get_magnitude_for_frequency_range((i / 512.0) * 20000.0,((i + 1) / 512.0) * 20000.0).length())/ 72.0 + 1.0)
+		samples.append(linear_to_db(spectrum.get_magnitude_for_frequency_range((i / 512.0) * 2000.0,((i + 1) / 512.0) * 2000.0).length())/ 72.0 + 1.0)
 		if samples[i] == -INF or samples[i] < 0.0:
 			samples[i] = 0.0
+		
+		if spectogramBars.size() != 0:
+			(spectogramBars[i] as Panel).custom_minimum_size = Vector2(0, samples[-1] * 100)
 	
 	for i in (numberOfThreads - 1):
 		threads.append(Thread.new())
@@ -136,7 +148,9 @@ func updateKernelsFromSpectogram():
 					var kernelIndex = (i * 3 + j) if is3D else i
 					kernels[kernelIndex][x][y] = (kernels[kernelIndex][x][y] - mean[i] ) / sqrt(variance[i] + 0.0001) / 1 + averageKernelValue
 					#kernels[i][x][y] = (kernels[i][x][y] - mean + averageKernelValue) / variance
-
+	
+	#print(str(kernels[0][0][0]) + ", " + str(kernels[0][0][1]) + ", " + str(kernels[0][0][2]) + ", " + str(kernels[0][1][0]) + ", " + str(kernels[0][1][1]) + ", " + str(kernels[0][1][2]) + ", " + str(kernels[0][2][0]) + ", " + str(kernels[0][2][1]) + ", " + str(kernels[0][2][2]))
+	
 	textureRect.material = convolutionMaterial
 	convolutionMaterial.set_shader_parameter("kernels", kernels)
 
@@ -155,4 +169,8 @@ func _ready():
 	additionalMatrices = (numberOfKernelWeights % matricesPerThread)
 	spectrum = AudioServer.get_bus_effect_instance(2,0)
 	outputTexture = get_node("/root/Node2D/CanvasLayer/TextureRect")
+	if spectogramBar != null && spectogramContainer != null:	
+		for j in 512:
+			spectogramBars.append(spectogramBar.instantiate())
+			spectogramContainer.add_child(spectogramBars[-1])
 	randomizeWeights()

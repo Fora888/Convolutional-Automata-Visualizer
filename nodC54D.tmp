@@ -131,6 +131,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 mouse_filter = 1
 theme = ExtResource("6_v3w60")
@@ -460,6 +461,7 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Button" type="Button" parent="CanvasLayer"]
+visible = false
 z_index = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -510,7 +512,6 @@ render_target_clear_mode = 2
 render_target_update_mode = 4
 
 [node name="TextureRect" type="TextureRect" parent="BackBuffer"]
-texture_filter = 2
 material = ExtResource("5_kvchx")
 anchors_preset = 15
 anchor_right = 1.0

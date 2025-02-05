@@ -59,6 +59,7 @@ func resizeBuffers():
 	var screenSize = get_tree().get_root().size
 	$FrontBuffer.size = screenSize * bufferWindowRatio
 	$BackBuffer.size = screenSize * bufferWindowRatio
+	print($BackBuffer.size)
 	pass
 	
 func reset():
@@ -86,10 +87,10 @@ func _input(event):
 	
 	if zoom:
 		if event.is_action_pressed("Zoom in"):
-			bufferWindowRatio = clampf(bufferWindowRatio - 0.1, 0.2, 2)
+			bufferWindowRatio = max(0.2, bufferWindowRatio * 0.9)
 			resizeBuffers()
 		elif event.is_action_pressed("Zoom out"):
-			bufferWindowRatio = clampf(bufferWindowRatio + 0.1, 0.2, 2)
+			bufferWindowRatio = bufferWindowRatio * 1.1
 			resizeBuffers()
 		
 	
