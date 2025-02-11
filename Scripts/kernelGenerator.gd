@@ -14,6 +14,8 @@ extends Node
 @export var uiNode : Node
 @export var spectogramBar : PackedScene
 @export var spectogramContainer : HBoxContainer
+var targetAverage = 0.5
+var targetVariance = 1.0
 var spectogramBars = []
 
 var spectrum
@@ -24,6 +26,10 @@ var averageKernelValue : float
 var rng = RandomNumberGenerator.new()
 var outputTexture
 var noise = FastNoiseLite.new()
+
+var emaAlpha = 0.5
+var emaHistory: PackedFloat32Array
+var reactivity = 0.5
 
 
 func setColor(color : Color, id : int):
@@ -52,13 +58,15 @@ func updatePostProcessing():
 		
 func randomizeWeights():
 	weights = []
+	emaHistory.resize(512)
+	emaHistory.fill(0)
 	for i in numberOfKernelWeights:
 		var row : PackedFloat32Array
 		var sum = 0
 		var randomRow = rng.randf_range(-1.0, 1.0) * 500
 		for j in 512:
-			row.append(noise.get_noise_2d(j, randomRow))
-			#row.append(randf())
+			#row.append(noise.get_noise_2d(j, randomRow))
+			row.append(randf())
 			sum = sum + (row[-1] ** 2)
 		sum = sqrt(sum)
 		for j in 512:
@@ -90,8 +98,16 @@ func updateKernelsFromSpectogram():
 		if samples[i] == -INF or samples[i] < 0.0:
 			samples[i] = 0.0
 		
+		var historicLoudness = emaHistory[i]
+		emaHistory[i] = emaAlpha * samples[i] + (1-emaAlpha) * emaHistory[i]
+		samples[i] = samples[i] - reactivity * historicLoudness
+		
+		
 		if spectogramBars.size() != 0:
 			(spectogramBars[i] as Panel).custom_minimum_size = Vector2(0, samples[-1] * 100)
+		
+
+		
 	
 	for i in (numberOfThreads - 1):
 		threads.append(Thread.new())
@@ -146,9 +162,8 @@ func updateKernelsFromSpectogram():
 			for x in 3:
 				for y in 3:
 					var kernelIndex = (i * 3 + j) if is3D else i
-					kernels[kernelIndex][x][y] = (kernels[kernelIndex][x][y] - mean[i] ) / sqrt(variance[i] + 0.0001) / 1 + averageKernelValue
+					kernels[kernelIndex][x][y] = ((kernels[kernelIndex][x][y] - mean[i] ) / sqrt(variance[i] + 0.0001)) * targetVariance  + averageKernelValue #Mit varianz und Durschnitt spielen
 					#kernels[i][x][y] = (kernels[i][x][y] - mean + averageKernelValue) / variance
-	
 	#print(str(kernels[0][0][0]) + ", " + str(kernels[0][0][1]) + ", " + str(kernels[0][0][2]) + ", " + str(kernels[0][1][0]) + ", " + str(kernels[0][1][1]) + ", " + str(kernels[0][1][2]) + ", " + str(kernels[0][2][0]) + ", " + str(kernels[0][2][1]) + ", " + str(kernels[0][2][2]))
 	
 	textureRect.material = convolutionMaterial
@@ -158,10 +173,10 @@ func updateKernelsFromSpectogram():
 
 func _ready():
 	if(is3D):
-		averageKernelValue = 1.0 / 27.0
+		averageKernelValue = targetAverage / 27.0
 		numberOfKernelWeights = numberOfKernels * 3 * 3 * 3
 	else:
-		averageKernelValue = 1.0 / 9.0
+		averageKernelValue = targetAverage / 9.0
 		numberOfKernelWeights = numberOfKernels * 3 * 3
 	
 	numberOfThreads = ceil(numberOfKernelWeights / 20.0)
@@ -174,3 +189,10 @@ func _ready():
 			spectogramBars.append(spectogramBar.instantiate())
 			spectogramContainer.add_child(spectogramBars[-1])
 	randomizeWeights()
+	
+func setAverage(value):
+	targetAverage = value
+	if(is3D):
+		averageKernelValue = targetAverage / 27.0
+	else:
+		averageKernelValue = targetAverage / 9.0

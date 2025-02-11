@@ -104,3 +104,15 @@ func _input(event):
 	
 		
 	pass
+	
+func setAverage(value):
+	currentKernelGenerator.setAverage(value)
+	
+func setVariance(value):
+	currentKernelGenerator.targetVariance = value
+	
+func setEMAAlpha(value):
+	currentKernelGenerator.emaAlpha = value
+
+func setReactivity(value):
+	currentKernelGenerator.reactivity = value

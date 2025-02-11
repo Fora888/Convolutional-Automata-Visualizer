@@ -31,6 +31,36 @@ void fragment() {
 	float colorB 	= texture(TEXTURE, fract(vec2(UV.x, 					UV.y - pixel_size.y))).r;
 	float colorBL 	= texture(TEXTURE, fract(vec2(UV.x + pixel_size.x, 	UV.y - pixel_size.y))).r;
 	
+	float mean = (colorTR + colorT + colorTL + colorMR + colorM + colorML + colorBR + colorB + colorBL) / 9.0;
+	
+		// Compute the variance
+	float variance = (
+	    pow(colorTR - mean, 2.0) +
+	    pow(colorT - mean, 2.0) +
+	    pow(colorTL - mean, 2.0) +
+	    pow(colorMR - mean, 2.0) +
+	    pow(colorM - mean, 2.0) +
+	    pow(colorML - mean, 2.0) +
+	    pow(colorBR - mean, 2.0) +
+	    pow(colorB - mean, 2.0) +
+	    pow(colorBL - mean, 2.0)
+	) / 9.0;
+
+	// Compute the standard deviation (avoid division by zero)
+	float stddev = sqrt(variance + 1e-6);
+	stddev = 1.0;
+
+	// Normalize each value using standard score normalization (z-score)
+	colorTR = (colorTR - mean) / stddev;
+	colorT  = (colorT - mean) / stddev;
+	colorTL = (colorTL - mean) / stddev;
+	colorMR = (colorMR - mean) / stddev;
+	colorM  = (colorM - mean) / stddev;
+	colorML = (colorML - mean) / stddev;
+	colorBR = (colorBR - mean) / stddev;
+	colorB  = (colorB - mean) / stddev;
+	colorBL = (colorBL - mean) / stddev;
+	
 	float result = 	kernels[0][0][0] * colorTR	+ kernels[0][0][1] * colorT + kernels[0][0][2] * colorTL + 
 				kernels[0][1][0] * colorMR	+ kernels[0][1][1] * colorM + kernels[0][1][2] * colorML +
 				kernels[0][2][0] * colorBR	+ kernels[0][2][1] * colorB + kernels[0][2][2] * colorBL;

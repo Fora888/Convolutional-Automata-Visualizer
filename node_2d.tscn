@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://c8xio7yl1bgyy"]
+[gd_scene load_steps=31 format=3 uid="uid://c8xio7yl1bgyy"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_ilutk"]
 [ext_resource type="Material" uid="uid://bsk7pq17efvre" path="res://Materials/ConvolutionMaterial.tres" id="2_501vs"]
@@ -39,6 +39,8 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1qj8h"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_63882"]
 
@@ -363,6 +365,112 @@ presets_visible = false
 [node name="Debug" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
+[node name="Label2" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+text = "Debug"
+horizontal_alignment = 1
+
+[node name="AverageSlider" type="PanelContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/AverageSlider"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/AverageSlider/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/AverageSlider/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_1qj8h")
+text = "Average  "
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/AverageSlider/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = -2.0
+max_value = 2.0
+step = 0.01
+
+[node name="VarianceSlider" type="PanelContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/VarianceSlider"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/VarianceSlider/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/VarianceSlider/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_1qj8h")
+text = "Variance "
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/VarianceSlider/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 10.0
+step = 0.01
+value = 1.0
+
+[node name="EMAAlphaSlider" type="PanelContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/EMAAlphaSlider"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/EMAAlphaSlider/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/EMAAlphaSlider/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_1qj8h")
+text = "EMA Alpha "
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/EMAAlphaSlider/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="ReactivitySlider" type="PanelContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/ReactivitySlider"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/ReactivitySlider/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/ReactivitySlider/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_v3w60")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_1qj8h")
+text = "Reactivity "
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/ReactivitySlider/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 0.5
+
 [node name="Label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug"]
 z_index = 1
 layout_mode = 2
@@ -370,25 +478,25 @@ theme = ExtResource("6_v3w60")
 text = "Audio"
 horizontal_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug"]
+[node name="GainSlider" type="PanelContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug"]
 layout_mode = 2
 mouse_filter = 1
 theme = ExtResource("6_v3w60")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/GainSlider"]
 layout_mode = 2
 theme = ExtResource("6_v3w60")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/GainSlider/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/GainSlider/MarginContainer/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("6_v3w60")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_63882")
 text = "Input Gain  "
 
-[node name="HSlider" type="HSlider" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="HSlider" type="HSlider" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/GainSlider/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -454,7 +562,7 @@ theme = ExtResource("6_v3w60")
 layout_mode = 2
 theme = ExtResource("6_v3w60")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer3/MarginContainer"]
+[node name="Spectogram" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer3/MarginContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 theme_override_constants/separation = 0
@@ -528,20 +636,24 @@ stream = SubResource("AudioStreamMicrophone_onup8")
 autoplay = true
 bus = &"New Bus"
 
-[node name="3 Channel Convolution" type="Node" parent="." node_paths=PackedStringArray("textureRect")]
+[node name="3 Channel Convolution" type="Node" parent="." node_paths=PackedStringArray("textureRect", "spectogramContainer")]
 script = ExtResource("6_4mjap")
 convolutionMaterial = ExtResource("2_501vs")
 numberOfKernels = 3
 textureRect = NodePath("../FrontBuffer/TextureRect")
 is3D = true
 postProcessingMaterial = ExtResource("10_l8jsp")
+spectogramBar = ExtResource("13_awrwt")
+spectogramContainer = NodePath("../CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer3/MarginContainer/Spectogram")
 
-[node name="3 Channel Convolution Split" type="Node" parent="." node_paths=PackedStringArray("textureRect")]
+[node name="3 Channel Convolution Split" type="Node" parent="." node_paths=PackedStringArray("textureRect", "spectogramContainer")]
 script = ExtResource("6_4mjap")
 convolutionMaterial = ExtResource("7_o6kr4")
 numberOfKernels = 3
 textureRect = NodePath("../FrontBuffer/TextureRect")
 postProcessingMaterial = ExtResource("10_l8jsp")
+spectogramBar = ExtResource("13_awrwt")
+spectogramContainer = NodePath("../CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer3/MarginContainer/Spectogram")
 
 [node name="Single Channel Convolution" type="Node" parent="." node_paths=PackedStringArray("textureRect", "uiNode", "spectogramContainer")]
 script = ExtResource("6_4mjap")
@@ -552,7 +664,7 @@ postProcessingMaterial = ExtResource("10_l8jsp")
 foregroundColors = [Color(1, 1, 1, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1)]
 uiNode = NodePath("../CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel")
 spectogramBar = ExtResource("13_awrwt")
-spectogramContainer = NodePath("../CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer3/MarginContainer/HBoxContainer")
+spectogramContainer = NodePath("../CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer3/MarginContainer/Spectogram")
 
 [node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
 
@@ -577,7 +689,11 @@ one_shot = true
 [connection signal="color_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/MarginContainer/HBoxContainer/Button" method="setColor"]
 [connection signal="color_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" to="Single Channel Convolution" method="setColor" binds= [-1]]
 [connection signal="visibility_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/ColorSettings/SingleChannel/Background1Color/ColorContainer/ColorPicker" method="_on_visibility_changed"]
-[connection signal="value_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer/HSlider" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/PanelContainer/MarginContainer/HBoxContainer/HSlider" method="_on_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/AverageSlider/MarginContainer/HBoxContainer/HSlider" to="." method="setAverage"]
+[connection signal="value_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/VarianceSlider/MarginContainer/HBoxContainer/HSlider" to="." method="setVariance"]
+[connection signal="value_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/EMAAlphaSlider/MarginContainer/HBoxContainer/HSlider" to="." method="setEMAAlpha"]
+[connection signal="value_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/ReactivitySlider/MarginContainer/HBoxContainer/HSlider" to="." method="setReactivity"]
+[connection signal="value_changed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/GainSlider/MarginContainer/HBoxContainer/HSlider" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/GainSlider/MarginContainer/HBoxContainer/HSlider" method="_on_value_changed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2/Record" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2" method="_on_record_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2/Playback" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/Debug/HBoxContainer2" method="_on_play_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Button" to="CanvasLayer/Button" method="_on_pressed"]

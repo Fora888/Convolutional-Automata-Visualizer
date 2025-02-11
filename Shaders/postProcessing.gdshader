@@ -25,7 +25,6 @@ void fragment()
 	{	
 		sample = rgb2hsv(sample);
 		sample.y = 1.0;
-		sample.z = 1.0;
 		sample = hsv2rgb(sample);	
 	}
 	
